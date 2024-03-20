@@ -80,7 +80,7 @@ export default function App() {
 
     return (
         <>
-            <StatusBar style='auto' />
+            <StatusBar style='light' />
             <LinearGradient
                 colors={[Colors.primary700, Colors.accent500]}
                 style={styles.rootScreen}
@@ -109,3 +109,4 @@ const styles = StyleSheet.create({
         marginTop: Platform.OS === 'android' ? RNStatusBar.currentHeight : 0,
     },
 });
+

@@ -2,9 +2,11 @@
     "extends": "expo/tsconfig.base",
     "compilerOptions": {
         "strict": true,
+        "moduleSuffixes": [".android", ".ios", ""],
         "baseUrl": ".",
         "paths": {
             "@/*": ["src/*"]
         }
     }
 }
+
