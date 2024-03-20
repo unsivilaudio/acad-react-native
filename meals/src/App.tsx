@@ -12,6 +12,7 @@ import CategoriesScreen from '@/screens/Categories';
 import MealsOverviewScreen from '@/screens/MealsOverview';
 import MealDetailsScreen from '@/screens/MealDetails';
 import FavoriteMealsScreen from '@/screens/FavoriteMeals';
+import FavoriteContextProvider from '@/store/context/favorites-context';
 
 registerRootComponent(App);
 
@@ -59,36 +60,38 @@ export default function App() {
     return (
         <>
             <StatusBar style='light' />
-            <NavigationContainer>
-                <Stack.Navigator
-                    screenOptions={{
-                        headerStyle: { backgroundColor: '#351401' },
-                        headerTintColor: 'white',
-                        contentStyle: { backgroundColor: 'transparent' },
-                    }}
-                    initialRouteName='Home'
-                >
-                    <Stack.Screen
-                        name='Home'
-                        options={{
-                            headerShown: false,
+            <FavoriteContextProvider>
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{
+                            headerStyle: { backgroundColor: '#351401' },
+                            headerTintColor: 'white',
+                            contentStyle: { backgroundColor: 'transparent' },
                         }}
-                        component={DrawerNavigator}
-                    />
-                    <Stack.Screen
-                        name='MealsOverview'
-                        options={{ title: 'Meals Overview' }}
-                        component={MealsOverviewScreen}
-                    />
-                    <Stack.Screen
-                        name='MealDetails'
-                        options={{
-                            title: 'About The Meal',
-                        }}
-                        component={MealDetailsScreen}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
+                        initialRouteName='Home'
+                    >
+                        <Stack.Screen
+                            name='Home'
+                            options={{
+                                headerShown: false,
+                            }}
+                            component={DrawerNavigator}
+                        />
+                        <Stack.Screen
+                            name='MealsOverview'
+                            options={{ title: 'Meals Overview' }}
+                            component={MealsOverviewScreen}
+                        />
+                        <Stack.Screen
+                            name='MealDetails'
+                            options={{
+                                title: 'About The Meal',
+                            }}
+                            component={MealDetailsScreen}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </FavoriteContextProvider>
         </>
     );
 }

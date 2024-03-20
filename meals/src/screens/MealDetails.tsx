@@ -1,10 +1,11 @@
-import { useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { Image, ScrollView, View, Text, StyleSheet } from 'react-native';
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamsList } from '@/types/root-stack-params-list';
 
 import { MEALS } from '@/data/dummy-data';
+import { useFavoriteCtx } from '@/store/context/favorites-context';
 import MealDetails from '@/components/meals/MealDetails';
 import Subtitle from '@/components/meals/detail/Subtitle';
 import List from '@/components/meals/detail/List';
@@ -19,7 +20,19 @@ export default function MealDetailsScreen({
     route,
     navigation,
 }: MealDetailsScreenProps) {
-    const meal = MEALS.find((m) => m.id === route.params.mealId);
+    const { mealId } = route.params;
+    const favoriteCtx = useFavoriteCtx();
+    const meal = MEALS.find((m) => m.id === mealId);
+    const mealIsFavorite = favoriteCtx.ids.includes(mealId);
+
+    const toggleMealFavorite = useCallback(() => {
+        if (mealIsFavorite) {
+            favoriteCtx.removeFavorite(mealId);
+            return;
+        }
+
+        favoriteCtx.addFavorite(mealId);
+    }, [mealId, favoriteCtx, mealIsFavorite]);
 
     useLayoutEffect(() => {
         if (!meal?.id) return;
@@ -27,12 +40,12 @@ export default function MealDetailsScreen({
             headerRight: () => (
                 <IconButton
                     color='white'
-                    icon='star-outline'
-                    onPress={() => {}}
+                    icon={mealIsFavorite ? 'star' : 'star-outline'}
+                    onPress={toggleMealFavorite}
                 />
             ),
         });
-    }, [navigation, meal]);
+    }, [navigation, meal, mealIsFavorite, toggleMealFavorite]);
 
     if (!meal) {
         return (
