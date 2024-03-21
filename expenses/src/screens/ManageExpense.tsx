@@ -1,11 +1,13 @@
 import { useLayoutEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamsList } from '@/types/root-stack-params-list';
-import IconButton from '@/components/ui/IconButton';
+import type { RootStackParamsList } from '@/types/root-stack-params-list';
+
 import { GlobalStyles } from '@/constants/styles';
+import IconButton from '@/components/ui/IconButton';
 import Button from '@/components/ui/Button';
+import useExpensesContext from '@/context/hooks/use-expenses';
 
 type ManageExpenseScreenProps = NativeStackScreenProps<
     RootStackParamsList,
@@ -16,25 +18,43 @@ export default function ManageExpenseScreen({
     navigation,
     route,
 }: ManageExpenseScreenProps) {
+    const expenseCtx = useExpensesContext();
+
     const isEditing = !!route.params?.expenseId;
-    const title = isEditing ? 'Edit Expense' : 'Add Expense';
+    const editingExpense = isEditing
+        ? expenseCtx.expenses.find((e) => e.id === route.params.expenseId)
+        : null;
 
     useLayoutEffect(() => {
+        const title = isEditing ? 'Edit Expense' : 'Add Expense';
         navigation.setOptions({
             title,
         });
-    }, [title, navigation]);
+    }, [navigation, isEditing]);
 
-    function deleteExpenseHandler() {}
+    function deleteExpenseHandler() {
+        if (isEditing) {
+            expenseCtx.deleteExpense(route.params.expenseId);
+        }
+        navigation.goBack();
+    }
 
     function cancelHandler() {
         navigation.goBack();
     }
 
-    function confirmHandler() {}
+    function confirmHandler() {
+        if (isEditing) {
+            // @TODO
+        } else {
+            // @DO SOMETHING ELSE
+        }
+        navigation.goBack();
+    }
 
     return (
         <View style={styles.container}>
+            {editingExpense && <Text>{editingExpense.description}</Text>}
             <View style={styles.buttonsContainer}>
                 <Button
                     mode='flat'

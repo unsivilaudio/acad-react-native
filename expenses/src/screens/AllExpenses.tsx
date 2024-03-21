@@ -1,6 +1,9 @@
-import { DUMMY_EXPENSES } from '@/models/mock/dummy-data';
 import ExpensesOutput from '@/components/expenses/ExpensesOutput';
+import useExpensesContext from '@/context/hooks/use-expenses';
 
 export default function AllExpensesScreen() {
-    return <ExpensesOutput expenses={DUMMY_EXPENSES} expensesPeriod='Total' />;
+    const expenseCtx = useExpensesContext();
+    return (
+        <ExpensesOutput expenses={expenseCtx.expenses} expensesPeriod='Total' />
+    );
 }
