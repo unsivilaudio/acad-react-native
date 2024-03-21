@@ -1,5 +1,6 @@
-import { GlobalStyles } from '@/constants/styles';
 import { View, Text, StyleSheet, Pressable, ViewStyle } from 'react-native';
+
+import { GlobalStyles } from '@/constants/styles';
 
 interface ButtonProps {
     mode?: 'flat';

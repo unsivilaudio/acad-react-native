@@ -1,4 +1,3 @@
-import { GlobalStyles } from '@/constants/styles';
 import {
     View,
     Text,
@@ -7,6 +6,8 @@ import {
     TextInputProps,
     ViewStyle,
 } from 'react-native';
+
+import { GlobalStyles } from '@/constants/styles';
 
 interface ExpenseInputProps {
     label: string;

@@ -1,10 +1,13 @@
+import { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+import type { Expense } from '@/models/expense';
+
+import { getFormattedDate } from '@/util/date';
+import { GlobalStyles } from '@/constants/styles';
+
 import ExpenseInput from '@/components/expenses/manage/Input';
 import Button from '@/components/ui/Button';
-import { GlobalStyles } from '@/constants/styles';
-import type { Expense } from '@/models/expense';
-import { getFormattedDate } from '@/util/date';
-import { useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
 
 interface ExpenseFormProps {
     initialState?: Expense;

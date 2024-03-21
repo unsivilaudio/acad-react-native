@@ -1,15 +1,15 @@
 import { useLayoutEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import type { RootStackParamsList } from '@/types/root-stack-params-list';
+import type { Expense } from '@/models/expense';
 
 import { GlobalStyles } from '@/constants/styles';
-import IconButton from '@/components/ui/IconButton';
-import Button from '@/components/ui/Button';
 import useExpensesContext from '@/context/hooks/use-expenses';
+
+import IconButton from '@/components/ui/IconButton';
 import ExpenseForm from '@/components/expenses/manage/ExpenseForm';
-import { Expense } from '@/models/expense';
 
 type ManageExpenseScreenProps = NativeStackScreenProps<
     RootStackParamsList,

@@ -10,11 +10,13 @@ import type { RootStackParamsList } from '@/types/root-stack-params-list';
 import type { RootBottomTabsParamsList } from '@/types/root-bottom-tabs-params-list';
 
 import { GlobalStyles } from '@/constants/styles';
+
+import ExpensesContextProvider from '@/context/expenses';
+import IconButton from '@/components/ui/IconButton';
+
 import ManageExpenseScreen from '@/screens/ManageExpense';
 import AllExpensesScreen from '@/screens/AllExpenses';
 import RecentExpensesScreen from '@/screens/RecentExpenses';
-import IconButton from '@/components/ui/IconButton';
-import ExpensesContextProvider from '@/context/expenses';
 
 registerRootComponent(App);
 

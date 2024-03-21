@@ -2,6 +2,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Expense } from '@/models/expense';
 import { GlobalStyles } from '@/constants/styles';
+
 import ExpensesSummary from '@/components/expenses/ExpensesSummary';
 import ExpensesList from '@/components/expenses/ExpensesList';
 
