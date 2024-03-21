@@ -8,8 +8,8 @@ import type { RootDrawerParamsList } from '@/types/root-drawer-params-list';
 import type { RootStackParamsList } from '@/types/root-stack-params-list';
 
 import { MEALS } from '@/data/dummy-data';
-import { useFavoriteCtx } from '@/store/context/favorites-context';
 import MealList from '@/components/meals/MealList';
+import useMealsStore from '@/store/redux/hooks/use-meals';
 
 type FavoriteMealsScreenProps = CompositeScreenProps<
     DrawerScreenProps<RootDrawerParamsList, 'FavoriteMeals'>,
@@ -19,9 +19,9 @@ type FavoriteMealsScreenProps = CompositeScreenProps<
 export default function FavoriteMealsScreen({
     navigation,
 }: FavoriteMealsScreenProps) {
-    const favoriteCtx = useFavoriteCtx();
+    const { favorites } = useMealsStore();
 
-    const favoriteMeals = MEALS.filter((m) => favoriteCtx.ids.includes(m.id));
+    const favoriteMeals = MEALS.filter((m) => favorites.includes(m.id));
 
     function selectMealItemHandler(id: string) {
         navigation.navigate('MealDetails', { mealId: id });

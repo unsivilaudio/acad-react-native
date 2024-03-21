@@ -5,7 +5,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamsList } from '@/types/root-stack-params-list';
 
 import { MEALS } from '@/data/dummy-data';
-import { useFavoriteCtx } from '@/store/context/favorites-context';
+import useMealsStore from '@/store/redux/hooks/use-meals';
+
 import MealDetails from '@/components/meals/MealDetails';
 import Subtitle from '@/components/meals/detail/Subtitle';
 import List from '@/components/meals/detail/List';
@@ -21,18 +22,18 @@ export default function MealDetailsScreen({
     navigation,
 }: MealDetailsScreenProps) {
     const { mealId } = route.params;
-    const favoriteCtx = useFavoriteCtx();
+    const { favorites, addFavorite, removeFavorite } = useMealsStore();
     const meal = MEALS.find((m) => m.id === mealId);
-    const mealIsFavorite = favoriteCtx.ids.includes(mealId);
+    const mealIsFavorite = favorites.includes(mealId);
 
     const toggleMealFavorite = useCallback(() => {
         if (mealIsFavorite) {
-            favoriteCtx.removeFavorite(mealId);
+            removeFavorite({ id: mealId });
             return;
         }
 
-        favoriteCtx.addFavorite(mealId);
-    }, [mealId, favoriteCtx, mealIsFavorite]);
+        addFavorite({ id: mealId });
+    }, [mealId, mealIsFavorite, addFavorite, removeFavorite]);
 
     useLayoutEffect(() => {
         if (!meal?.id) return;
