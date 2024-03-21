@@ -1,11 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { DUMMY_EXPENSES } from '@/models/mock/dummy-data';
+import ExpensesOutput from '@/components/expenses/ExpensesOutput';
 
 export default function AllExpensesScreen() {
-    return (
-        <View>
-            <Text>The AllExpense component</Text>
-        </View>
-    );
+    return <ExpensesOutput expenses={DUMMY_EXPENSES} expensesPeriod='Total' />;
 }
-
-const styles = StyleSheet.create({});

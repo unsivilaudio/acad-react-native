@@ -1,6 +1,8 @@
-import { RootTabsParamsList } from './root-tabs-params-list';
+import { RootBottomTabsParamsList } from '@/types/root-bottom-tabs-params-list';
 
 export type RootStackParamsList = {
-    Home: RootTabsParamsList;
-    ManageExpense: undefined;
+    ExpensesOverview: RootBottomTabsParamsList;
+    ManageExpense: {
+        expenseId?: string;
+    };
 };
