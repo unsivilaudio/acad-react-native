@@ -91,8 +91,11 @@ export default function ExpensesContextProvider({
         dispatch({ type: 'UPDATE_EXPENSE', payload: exp });
     }
 
+    const sortedExpenses = [...state.expenses].sort((a, b) =>
+        a.date < b.date ? 1 : -1,
+    );
     const expenseCtxValue: ExpenseContextValue = {
-        ...state,
+        expenses: sortedExpenses,
         addExpense,
         deleteExpense,
         updateExpense,
