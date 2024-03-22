@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -7,9 +7,12 @@ import type { Expense } from '@/models/expense';
 
 import { GlobalStyles } from '@/constants/styles';
 import useExpensesContext from '@/context/hooks/use-expenses';
+import { deleteExpense, storeExpense, updateExpense } from '@/util/http';
 
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import IconButton from '@/components/ui/IconButton';
 import ExpenseForm from '@/components/expenses/manage/ExpenseForm';
+import ErrorOverlay from '@/components/ui/ErrorOverlay';
 
 type ManageExpenseScreenProps = NativeStackScreenProps<
     RootStackParamsList,
@@ -20,6 +23,8 @@ export default function ManageExpenseScreen({
     navigation,
     route,
 }: ManageExpenseScreenProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const expenseCtx = useExpensesContext();
 
     const isEditing = !!route.params?.expenseId;
@@ -34,27 +39,56 @@ export default function ManageExpenseScreen({
         });
     }, [navigation, isEditing]);
 
-    function deleteExpenseHandler() {
-        if (isEditing) {
-            expenseCtx.deleteExpense(route.params.expenseId);
+    async function deleteExpenseHandler() {
+        try {
+            if (isEditing) {
+                setIsSubmitting(true);
+                await deleteExpense(route.params.expenseId);
+                expenseCtx.deleteExpense(route.params.expenseId);
+                navigation.goBack();
+            }
+        } catch {
+            setError('Could not delete expense, please try again later.');
         }
-        navigation.goBack();
     }
 
     function cancelHandler() {
         navigation.goBack();
     }
 
-    function confirmHandler(exp: Omit<Expense, 'id'>) {
-        if (isEditing) {
-            expenseCtx.updateExpense({
-                ...exp,
-                id: editingExpense!.id,
-            });
-        } else {
-            expenseCtx.addExpense(exp);
+    async function confirmHandler(exp: Omit<Expense, 'id'>) {
+        setIsSubmitting(true);
+        try {
+            if (isEditing) {
+                const updatedExpense = await updateExpense({
+                    ...exp,
+                    id: editingExpense!.id,
+                });
+                expenseCtx.updateExpense(updatedExpense);
+            } else {
+                const newExpense = await storeExpense(exp);
+
+                expenseCtx.addExpense(newExpense);
+            }
+            navigation.goBack();
+        } catch {
+            setError(
+                `Could not ${isEditing ? 'update' : 'add'} expense, please try again later.`,
+            );
         }
-        navigation.goBack();
+    }
+
+    function handleClearError() {
+        setError(null);
+        setIsSubmitting(false);
+    }
+
+    if (isSubmitting && error) {
+        return <ErrorOverlay message={error} onConfirm={handleClearError} />;
+    }
+
+    if (isSubmitting) {
+        return <LoadingOverlay />;
     }
 
     return (
