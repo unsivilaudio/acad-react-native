@@ -1,8 +1,9 @@
-import { useAuthContext } from '@/store/hooks/use-auth-ctx';
-import { FIREBASE_RDB_URL } from '@env';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { FIREBASE_RDB_URL } from '@env';
+import { useAuthContext } from '@/store/hooks/use-auth-ctx';
 
 function WelcomeScreen() {
     const { token } = useAuthContext();

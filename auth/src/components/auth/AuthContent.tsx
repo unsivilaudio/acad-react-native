@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { useNavigation, StackActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamsList } from '@/types/root-stack-params-list';
 
 import { Colors } from '@/constants/styles';
 import FlatButton from '@/components/ui/FlatButton';
 import AuthForm from '@/components/auth/AuthForm';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamsList } from '@/types/root-stack-params-list';
 
 interface AuthContentProps {
     isLogin?: boolean;
